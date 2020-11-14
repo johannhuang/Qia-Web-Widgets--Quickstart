@@ -3,26 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qia Web Widgets Application</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Qia Web Widgets</title>
   <style>
-    /* :defined matches too many */
-    qia-skeleton {
+    qia-skeleton, qia-paginator {
       display: inline-block;
-      border: 1px solid black;
+      margin: 1em;
+      border: 1px dotted gray;
+      padding: 1em;
+    }
+
+    .paged-content {
+      margin: 1em;
+      border: 1px dashed gray;
+      padding: 1em;
+    }
+
+    .paged-content .qia-paginator-container {
+      text-align: center;
+    }
+
+    .paged-content .qia-paginator-container qia-paginator {
+      margin: 0;
+      border: none;
+      padding: 0;
     }
   </style>
 </head>
 <body>
   <div class="document-content">
-    <qia-skeleton></qia-skeleton>
-    <div class="qia-skeleton-container"></div>
+    <h1>Qia Web Widgets</h1>
+    <div class="qia-podcasts"></div>
+    <div class="qia-paginators">
+      <h2>Qia Paginators</h2>
+      <qia-paginator current="2" total="3"></qia-paginator>
+      <qia-paginator current="1" total="5"></qia-paginator>
+      <qia-paginator current="3" total="7"></qia-paginator>
+      <qia-paginator current="5" total="9"></qia-paginator>
+      <div class="paged-content">
+        <div class="page-container"></div>
+        <div class="qia-paginator-container"></div>
+      </div>
+    </div>
+    <div class="qia-skeletons">
+      <h2>Qia Skeletons</h2>
+      <qia-skeleton></qia-skeleton>
+      <span class="qia-skeleton-container"></span>
+    </div>
   </div>
   <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="node_modules/qia-widgets/qia-skeleton.js"></script>
+  <script src="node_modules/qia-widgets/qia-widgets.js"></script>
   <script>
-    const qiaSkeletonContainer = document.querySelector('.qia-skeleton-container');
-    const qiaSkeleton = new QiaWidgets.QiaSkeleton({}, qiaSkeletonContainer);
+    const qiaSkeletonContainer = document.querySelector('.qia-skeleton-container')
+    const qiaSkeleton = new QiaWidgets.QiaSkeleton({}, qiaSkeletonContainer)
+
+    const qiaPaginatorContainer = document.querySelector('.qia-paginator-container')
+    const qiaPaginator = new QiaWidgets.QiaPaginator({current: 92, total: 97}, qiaPaginatorContainer)
+    const qiaPaginatorElement = qiaPaginator.element
+
+    const pageContainer = document.querySelector('.page-container')
+    pageContainer.innerHTML = `Qia Paginator demo - paged content for page ${92}`
+
+    qiaPaginatorElement.addEventListener('pageChanged', function (event) {
+      pageContainer.innerHTML = `Qia Paginator demo - paged content for page ${event.detail.current}`
+    });
   </script>
 </body>
 </html>
